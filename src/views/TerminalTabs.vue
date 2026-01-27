@@ -18,6 +18,7 @@
         <span>{{ item.title }}</span>
         <el-icon class="tab-icon" @click="removeTab($event, item.sessionId || item.id)"><CloseBold /></el-icon>
       </template>
+      <div @click="onBackButtonPress">onBackButtonPress</div>
       <el-empty
           v-if="item.type === 'welcome'"
           image="/logo.png"
@@ -29,9 +30,9 @@
         <setting-form />
       </div>
 
-      <terminal v-else-if="item.type === 'connect'" :session="item"/>
+      <terminal ref="xterm" v-else-if="item.type === 'connect'" :session="item"/>
 
-      <sftp-file-browser v-else-if="item.type === 'sftp'" :session="item"/>
+      <sftp-file-browser :ref="'sftp_' + item.sessionId" v-else-if="item.type === 'sftp'" :session="item"/>
     </el-tab-pane>
 
     <el-tab-pane v-if="isMobile && tabs.length <= 0" :closable="false" label="Welcome" name="welcome">
@@ -109,6 +110,11 @@ export default {
         // 激活时 保持屏幕常亮
         keepScreenOn(newVal)
       },
+    },
+  },
+  computed: {
+    activeTabContext() {
+      return this.tabs.filter( value => value.sessionId === this.activeTab)
     }
   },
   beforeUnmount() {
@@ -128,6 +134,14 @@ export default {
     }
   },
   methods: {
+    async onBackButtonPress() {
+      if (this.isMobile && this.activeTabContext && this.activeTabContext.length) {
+        let context = this.activeTabContext[0]
+        if (context.type === 'sftp' && this.$refs['sftp_' + context.sessionId]) {
+          this.$refs['sftp_' + context.sessionId][0].goUp()
+        }
+      }
+    },
     autoFocusTab() {
       if (this.tabs.length > 0) {
         // 默认激活最后一个Tab

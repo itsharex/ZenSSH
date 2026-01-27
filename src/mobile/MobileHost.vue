@@ -16,7 +16,7 @@
       </div>
     </div>
     <div v-else-if="configList.length" style="text-align: center;">
-      <img class="app-icon" src="/logo.png" style="margin-top: 0; width: 50px;"/>
+      <img class="app-icon" src="/logo.png" style="margin-top: 0;"/>
       <div class="config-list">
         <div v-for="once of configList"
              class="config-item"

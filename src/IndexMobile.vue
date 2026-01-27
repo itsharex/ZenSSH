@@ -12,7 +12,7 @@
     <main class="content">
       <mobile-host v-show="activeTab === 'host'" ref="hostMng"/>
 
-      <terminal-tabs v-show="activeTab === 'conn'" :active="activeTab === 'conn'"/>
+      <terminal-tabs ref="terminalTabs" v-show="activeTab === 'conn'" :active="activeTab === 'conn'"/>
 
       <mobile-setting v-show="activeTab === 'setting'"/>
     </main>
@@ -104,6 +104,12 @@ export default {
           this.$confirm("确认退出？", {showClose: false}).then(() => {
             exit(0)
           }).catch(() => {})
+        } else if (this.activeTab === 'conn'){
+          this.$refs.terminalTabs.onBackButtonPress().then(rv => {
+            if (rv) {
+              this.toggleTab('host')
+            }
+          })
         } else {
           this.toggleTab('host')
         }
