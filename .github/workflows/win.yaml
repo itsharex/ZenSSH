@@ -1,0 +1,57 @@
+name: win32
+
+on:
+  release:
+    types: [created]
+  workflow_dispatch:
+
+jobs:
+  publish-tauri:
+    permissions:
+      contents: write
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - platform: 'windows-latest'
+            args: ''
+
+    runs-on: ${{ matrix.platform }}
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          submodules: true
+          ssh-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+
+      - uses: Swatinem/rust-cache@v2
+        with:
+          cache-on-failure: true
+          workspaces: |
+            ./src-tauri -> ./target
+
+      - name: install frontend dependencies
+        run: yarn install
+
+      - name: Tauri Project
+        uses: tauri-apps/tauri-action@v0.6.1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAURI_SIGNING_PRIVATE_KEY: dW50cnVzdGVkIGNvbW1lbnQ6IHJzaWduIGVuY3J5cHRlZCBzZWNyZXQga2V5ClJXUlRZMEl5YTBGV3JiTy9lRDZVd3NkL0RoQ1htZmExNDd3RmJaNmRMT1ZGVjczWTBKZ0FBQkFBQUFBQUFBQUFBQUlBQUFBQWdMekUzVkE4K0tWQ1hjeGt1Vkx2QnRUR3pzQjVuV0ZpM2czWXNkRm9hVUxrVnB6TUN3K1NheHJMREhQbUVWVFZRK3NIL1VsMDBHNW5ET1EzQno0UStSb21nRW4vZlpTaXIwZFh5ZmRlL1lSN0dKcHdyOUVPclVvdzFhVkxDVnZrbHM2T1o4Tk1NWEU9Cg==
+          NDK_HOME: ${{ steps.setup-ndk.outputs.ndk-path }}
+        with:
+          tagName: app-v__VERSION__
+          releaseName: 'v__VERSION__'
+          releaseBody: 'OK'
+          releaseDraft: true
+          args: ${{ matrix.args }}
+          retryAttempts: 1
+          uploadPlainBinary: true
+          uploadWorkflowArtifacts: true
+          uploadUpdaterSignatures: false
+          tauriScript: ${{ matrix.tauri || 'yarn tauri' }}
+          mobile: ${{ matrix.mobile }}

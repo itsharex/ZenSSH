@@ -1,0 +1,83 @@
+name: macOS
+
+on:
+#  release:
+#    types: [created]
+  workflow_dispatch:
+
+jobs:
+  publish-tauri:
+    permissions:
+      contents: write
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - platform: 'macos-latest'
+            args: '--target aarch64-apple-darwin'
+          - platform: 'macos-latest'
+            args: '--target x86_64-apple-darwin'
+
+    runs-on: ${{ matrix.platform }}
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          submodules: true
+          ssh-key: ${{ secrets.SSH_PRIVATE_KEY }}
+
+      - name: setup node
+        uses: actions/setup-node@v4
+        with:
+          node-version: lts/*
+
+      - name: install Rust stable (ios)
+        if: matrix.mobile == 'ios'
+        uses: dtolnay/rust-toolchain@stable
+        with:
+          targets: aarch64-apple-ios
+
+      - uses: maxim-lobanov/setup-xcode@v1
+        if: matrix.mobile == 'ios'
+        with:
+          xcode-version: 26.1
+
+      - name: setup Apple API key
+        if: matrix.mobile == 'ios'
+        run: |
+          APPLE_API_KEY_PATH="$RUNNER_TEMP/AuthKey_${{ secrets.APPLE_API_KEY_ID }}.p8"
+          echo "${{ secrets.APPLE_API_KEY }}" > $APPLE_API_KEY_PATH
+          echo "APPLE_API_KEY_PATH=$APPLE_API_KEY_PATH" >> $GITHUB_ENV
+          echo "API_PRIVATE_KEYS_DIR=$RUNNER_TEMP" >> $GITHUB_ENV
+
+      - uses: Swatinem/rust-cache@v2
+        with:
+          cache-on-failure: true
+          workspaces: |
+            ./src-tauri -> ./target
+
+      - name: init mobile project
+        if: matrix.mobile != ''
+        run: |
+          npx @tauri-apps/cli ${{ matrix.mobile }} init
+
+      - name: install frontend dependencies
+        run: yarn install
+
+      - name: Tauri Project
+        uses: tauri-apps/tauri-action@v0.6.1
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          TAURI_SIGNING_PRIVATE_KEY: dW50cnVzdGVkIGNvbW1lbnQ6IHJzaWduIGVuY3J5cHRlZCBzZWNyZXQga2V5ClJXUlRZMEl5YTBGV3JiTy9lRDZVd3NkL0RoQ1htZmExNDd3RmJaNmRMT1ZGVjczWTBKZ0FBQkFBQUFBQUFBQUFBQUlBQUFBQWdMekUzVkE4K0tWQ1hjeGt1Vkx2QnRUR3pzQjVuV0ZpM2czWXNkRm9hVUxrVnB6TUN3K1NheHJMREhQbUVWVFZRK3NIL1VsMDBHNW5ET1EzQno0UStSb21nRW4vZlpTaXIwZFh5ZmRlL1lSN0dKcHdyOUVPclVvdzFhVkxDVnZrbHM2T1o4Tk1NWEU9Cg==
+          NDK_HOME: ${{ steps.setup-ndk.outputs.ndk-path }}
+        with:
+          tagName: app-v__VERSION__
+          releaseName: 'v__VERSION__'
+          releaseBody: 'OK'
+          releaseDraft: true
+          args: ${{ matrix.args }}
+          retryAttempts: 1
+          uploadPlainBinary: true
+          uploadWorkflowArtifacts: true
+          uploadUpdaterSignatures: false
+          tauriScript: ${{ matrix.tauri || 'yarn tauri' }}
+          mobile: ${{ matrix.mobile }}

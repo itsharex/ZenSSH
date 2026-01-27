@@ -1,4 +1,4 @@
-name: CI
+name: Linux
 
 on:
   release:
@@ -13,13 +13,7 @@ jobs:
       fail-fast: false
       matrix:
         include:
-#          - platform: 'macos-latest'
-#            args: '--target aarch64-apple-darwin'
-#          - platform: 'macos-latest'
-#            args: '--target x86_64-apple-darwin'
           - platform: 'ubuntu-24.04'
-            args: ''
-          - platform: 'windows-latest'
             args: ''
 #          - platform: 'ubuntu-22.04'
 #            mobile: 'android'
@@ -50,12 +44,6 @@ jobs:
         with:
           targets: aarch64-linux-android,armv7-linux-androideabi,i686-linux-android,x86_64-linux-android
 
-      - name: install Rust stable (ios)
-        if: matrix.mobile == 'ios'
-        uses: dtolnay/rust-toolchain@stable
-        with:
-          targets: aarch64-apple-ios
-
       - name: Set up JDK
         if: matrix.mobile == 'android'
         uses: actions/setup-java@v5
@@ -75,26 +63,12 @@ jobs:
           ndk-version: r29
           link-to-sdk: true
 
-      - uses: maxim-lobanov/setup-xcode@v1
-        if: matrix.mobile == 'ios'
-        with:
-          xcode-version: 26.1
-
-      - name: setup Apple API key
-        if: matrix.mobile == 'ios'
-        run: |
-          APPLE_API_KEY_PATH="$RUNNER_TEMP/AuthKey_${{ secrets.APPLE_API_KEY_ID }}.p8"
-          echo "${{ secrets.APPLE_API_KEY }}" > $APPLE_API_KEY_PATH
-          echo "APPLE_API_KEY_PATH=$APPLE_API_KEY_PATH" >> $GITHUB_ENV
-          echo "API_PRIVATE_KEYS_DIR=$RUNNER_TEMP" >> $GITHUB_ENV
-
       - uses: Swatinem/rust-cache@v2
         with:
           cache-on-failure: true
           workspaces: |
             ./src-tauri -> ./target
 
-      # system
       - name: install dependencies (ubuntu only)
         if: matrix.platform == 'ubuntu-22.04' || matrix.platform == 'ubuntu-24.04' || matrix.platform == 'ubuntu-24.04-arm'
         run: |
@@ -117,7 +91,7 @@ jobs:
           NDK_HOME: ${{ steps.setup-ndk.outputs.ndk-path }}
         with:
           tagName: app-v__VERSION__
-          releaseName: 'App v__VERSION__'
+          releaseName: 'v__VERSION__'
           releaseBody: 'OK'
           releaseDraft: true
           args: ${{ matrix.args }}
