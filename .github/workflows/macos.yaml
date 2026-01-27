@@ -71,9 +71,9 @@ jobs:
           TAURI_SIGNING_PRIVATE_KEY: ${{ secrets.TAURI_PRIVATE_KEY }}
           TAURI_SIGNING_PRIVATE_KEY_PASSWORD: ${{ secrets.TAURI_PRIVATE_KEY_PASSWORD }}
         with:
-          tagName: app-v__VERSION__
-          releaseName: 'v__VERSION__'
-          releaseBody: 'OK'
+          tagName: ${{ github.ref_name }}
+          releaseName: "Rev ${{ github.ref_name }}"
+          releaseBody: "Draft release, will be updated later."
           releaseDraft: true
           args: ${{ matrix.args }}
           retryAttempts: 1
