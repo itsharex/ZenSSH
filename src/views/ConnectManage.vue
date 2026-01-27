@@ -53,16 +53,13 @@
 </template>
 
 <script>
-import {
-  Edit,
-} from '@element-plus/icons-vue'
 import ConnectForm, {DEFAULT_CONFIG} from "@/subs/ConnectForm.vue";
 import {useMngStore, useTabsStore} from "@/store.js";
 import {isMobile} from "@/commons.js";
 
 export default {
   name: "ConnectManage",
-  components: {ConnectForm, Edit},
+  components: {ConnectForm},
   data() {
     const appMng = useMngStore();
     const defaultConfig = Object.assign({}, DEFAULT_CONFIG);

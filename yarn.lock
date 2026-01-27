@@ -396,7 +396,7 @@
   resolved "https://registry.npmmirror.com/@rollup/rollup-win32-x64-msvc/-/rollup-win32-x64-msvc-4.54.0.tgz#beacb356412eef5dc0164e9edfee51c563732054"
   integrity sha512-hYT5d3YNdSh3mbCU1gwQyPgQd3T2ne0A3KG8KSBdav5TiBg6eInVmV+TeR5uHufiIgSFg0XsOWGW5/RhNcSvPg==
 
-"@tauri-apps/api@>=2.0.0-beta.6", "@tauri-apps/api@^2", "@tauri-apps/api@^2.5.0", "@tauri-apps/api@^2.8.0":
+"@tauri-apps/api@>=2.0.0-beta.6", "@tauri-apps/api@^2", "@tauri-apps/api@^2.5.0", "@tauri-apps/api@^2.6.0", "@tauri-apps/api@^2.8.0":
   version "2.9.1"
   resolved "https://registry.npmmirror.com/@tauri-apps/api/-/api-2.9.1.tgz#e539bfa437e53864fd5e7ed0f28e8217fbc74de1"
   integrity sha512-IGlhP6EivjXHepbBic618GOmiWe4URJiIeZFlB7x3czM0yDHHYviH1Xvoiv4FefdkQtn6v7TuwWCRfOGdnVUGw==
@@ -494,7 +494,7 @@
   dependencies:
     "@tauri-apps/api" "^2.8.0"
 
-"@tauri-apps/plugin-haptics@^2.3.2":
+"@tauri-apps/plugin-haptics@^2":
   version "2.3.2"
   resolved "https://registry.npmmirror.com/@tauri-apps/plugin-haptics/-/plugin-haptics-2.3.2.tgz#8368cc810c3b3bed5f6b69344e198eb02d3a461f"
   integrity sha512-TqvBR5JoPodDQWPXsNymmyqp37dOpunZOdVVbx5xOAxki7rVwiCMvoEPdtJQNIrU+dQDfkQYZ2oDBVOu4hf+ig==
@@ -522,7 +522,7 @@
   dependencies:
     "@tauri-apps/api" "^2.8.0"
 
-"@tauri-apps/plugin-os@^2.3.2":
+"@tauri-apps/plugin-os@^2":
   version "2.3.2"
   resolved "https://registry.npmmirror.com/@tauri-apps/plugin-os/-/plugin-os-2.3.2.tgz#de916a82d8d955bba59a2ffdba7f7aaa29397246"
   integrity sha512-n+nXWeuSeF9wcEsSPmRnBEGrRgOy6jjkSU+UVCOV8YUGKb2erhDOxis7IqRXiRVHhY8XMKks00BJ0OAdkpf6+A==
@@ -535,6 +535,13 @@
   integrity sha512-nCa4fGVaDL/B9ai03VyPOjfAHRHSBz5v6F/ObsB73r/dA3MHHhZtldaDMIc0V/pnUw9ehzr2iEG+XkSEyC0JJA==
   dependencies:
     "@tauri-apps/api" "^2.8.0"
+
+"@tauri-apps/plugin-updater@~2":
+  version "2.9.0"
+  resolved "https://registry.npmmirror.com/@tauri-apps/plugin-updater/-/plugin-updater-2.9.0.tgz#ba50b4e644fe19fa6f8465bd86d48119b0d3f41c"
+  integrity sha512-j++sgY8XpeDvzImTrzWA08OqqGqgkNyxczLD7FjNJJx/uXxMZFz5nDcfkyoI/rCjYuj2101Tci/r/HFmOmoxCg==
+  dependencies:
+    "@tauri-apps/api" "^2.6.0"
 
 "@types/estree@1.0.8":
   version "1.0.8"

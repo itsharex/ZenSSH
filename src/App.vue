@@ -8,7 +8,7 @@
                  menu-trigger="click"
                  :default-active="activeMenu"
                  :router="false"
-                 @select="handlerMenuSelect"
+                 @select="handleMenuSelect"
                  data-tauri-drag-region>
 <!--          <el-sub-menu index="1">
             <template #title>文件</template>
@@ -19,27 +19,43 @@
           </el-sub-menu>-->
           <el-menu-item index="2" @click="toggleSessionManage">链接管理</el-menu-item>
           <el-menu-item index="3" @click="openSetting">应用配置</el-menu-item>
-          <el-menu-item index="4" @click="showAbout">关于</el-menu-item>
+          <el-menu-item index="4" @click="handleCheckUpdate(true)">{{update ? ("检测到更新：" + update.version) : "检查更新"}}</el-menu-item>
+          <el-menu-item index="5" @click="showAbout">关于</el-menu-item>
         </el-menu>
+
+        <el-dialog
+            v-model="showUpdater"
+            title="检查到更新"
+            width="500">
+          <span>{{ update }}</span>
+          <template #footer>
+            <div class="dialog-footer">
+              <el-button @click="showUpdater = false">Cancel</el-button>
+              <el-button type="primary" @click="handleAppUpdate">
+                立即更新
+              </el-button>
+            </div>
+          </template>
+        </el-dialog>
       </el-header>
-      <el-container>
-        <el-splitter>
-          <el-splitter-panel :min="200" :size="asideSize">
-            <connect-manage ref="connectManage"/>
-          </el-splitter-panel>
-          <el-splitter-panel :min="200">
-            <terminal-tabs ref="terminalTabs"/>
-          </el-splitter-panel>
-        </el-splitter>
-      </el-container>
+      <el-splitter>
+        <el-splitter-panel :min="200" :size="asideSize">
+          <connect-manage ref="connectManage"/>
+        </el-splitter-panel>
+        <el-splitter-panel :min="200">
+          <terminal-tabs ref="terminalTabs"/>
+        </el-splitter-panel>
+      </el-splitter>
     </el-container>
   </div>
 </template>
 
 <script>
+import { h } from 'vue'
+import {check} from '@tauri-apps/plugin-updater';
 import {openUrl} from '@tauri-apps/plugin-opener'
 import {listen} from '@tauri-apps/api/event'
-import {exit} from '@tauri-apps/plugin-process'
+import {relaunch, exit} from '@tauri-apps/plugin-process'
 import ConnectManage from "./views/ConnectManage.vue";
 import TerminalTabs from "./views/TerminalTabs.vue";
 import {appConfigStore, appRunState, useMngStore, useTabsStore} from "@/store.js";
@@ -56,13 +72,17 @@ export default {
       asideSize: 200,
       activeMenu: "",
       isMobile: false,
+
+      showUpdater: false, update: null,
     }
   },
-  async mounted () {
+  async mounted() {
     if (isMobile()) {
       this.isMobile = true
       this.asideSize = 0;
       this.$forceUpdate();
+    } else {
+      this.handleCheckUpdate();
     }
     // 加载密钥串
     while (true) {
@@ -113,7 +133,43 @@ export default {
     })
   },
   methods: {
-    handlerMenuSelect(index) {
+    handleCheckUpdate(byUser) {
+      check().then(update => {
+        if (update) {
+          this.update = update;
+          this.showUpdater = true
+        } else {
+          if (byUser) {
+            this.$message.success('暂无更新，开发者正在噼里啪啦中...');
+          }
+        }
+      }).catch(err => {
+        this.$message.primary('暂无更新，因为开发者弄坏了更新服务器:' + err);
+      })
+    },
+    async handleAppUpdate() {
+      let downloaded = 0;
+      let contentLength = 0;
+      // alternatively we could also call update.download() and update.install() separately
+      await this.update.downloadAndInstall((event) => {
+        switch (event.event) {
+          case 'Started':
+            contentLength = event.data.contentLength;
+            console.log(`started downloading ${event.data.contentLength} bytes`);
+            break;
+          case 'Progress':
+            downloaded += event.data.chunkLength;
+            console.log(`downloaded ${downloaded} from ${contentLength}`);
+            break;
+          case 'Finished':
+            console.log('download finished');
+            break;
+        }
+      });
+      console.log('update installed');
+      await relaunch();
+    },
+    handleMenuSelect(index) {
       this.activeMenu = index
       this.$nextTick(() => {
         this.activeMenu = null
@@ -187,8 +243,6 @@ export default {
 .container {
   display: flex;
   flex-direction: column;
-  height: calc(100vh - env(safe-area-inset-top));
-  padding-top: env(safe-area-inset-top);
   .header {
     height: 30px;
     padding: 0;
@@ -198,16 +252,10 @@ export default {
   .aside-hidden {
     width: 0 !important;
   }
-}
-
-@media (max-width: 768px) {
-  .container {
-    .aside {
-      width: 100%;
-    }
+  ::v-deep(.el-splitter) {
+    height: calc(100vh - 30px);
   }
 }
-
 </style>
 
 <style>

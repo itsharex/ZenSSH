@@ -63,11 +63,10 @@
 <script>
 import ConnectForm, {DEFAULT_CONFIG} from "@/subs/ConnectForm.vue";
 import {useMngStore} from "@/store.js";
-import {Files} from "@element-plus/icons-vue";
 
 export default {
   name: "MobileHost",
-  components: {Files, ConnectForm},
+  components: {ConnectForm},
   data() {
     const appMng = useMngStore();
     const defaultConfig = Object.assign({}, DEFAULT_CONFIG);
