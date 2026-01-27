@@ -243,6 +243,8 @@ export default {
 .container {
   display: flex;
   flex-direction: column;
+  height: calc(100vh - env(safe-area-inset-top));
+  padding-top: env(safe-area-inset-top);
   .header {
     height: 30px;
     padding: 0;

@@ -18,7 +18,6 @@
         <span>{{ item.title }}</span>
         <el-icon class="tab-icon" @click="removeTab($event, item.sessionId || item.id)"><CloseBold /></el-icon>
       </template>
-      <div @click="onBackButtonPress">onBackButtonPress</div>
       <el-empty
           v-if="item.type === 'welcome'"
           image="/logo.png"
@@ -139,8 +138,10 @@ export default {
         let context = this.activeTabContext[0]
         if (context.type === 'sftp' && this.$refs['sftp_' + context.sessionId]) {
           this.$refs['sftp_' + context.sessionId][0].goUp()
+          return false
         }
       }
+      return true
     },
     autoFocusTab() {
       if (this.tabs.length > 0) {

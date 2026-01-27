@@ -4,8 +4,9 @@
     <div class="toolbar">
       <div class="path">📂 {{ currentDir }}</div>
       <div class="actions">
-        <button @click="goUp">⬆ 上一级</button>
-        <button @click="mkdir">📁 新建</button>
+        <button @click="bakHostTab">🏡 返回首页</button>
+        <button @click="goUp">🔼 上一级</button>
+        <button @click="mkdir">📁 新建文件夹</button>
       </div>
     </div>
 
@@ -72,8 +73,17 @@ export default {
   },
   mounted() {
     this.connect().then(() => {
-
-    })
+      this.tabStore.connectSuccess(this.sessionId);
+      this.$bus.on("ssh_close_" + this.sessionId, () => {
+        this.disconnect();
+      });
+    }).catch(err => {
+      this.disconnect();
+      this.$notify({
+        type: 'warning',
+        message: '连接失败:' + err,
+      });
+    });
   },
   beforeUnmount() {
     this.disconnect();
@@ -124,9 +134,10 @@ export default {
       }).then(fileContent => {
         let content = new TextEncoder().encode(fileContent)
         const fileName = this.activeFile.substring(this.activeFile.lastIndexOf('/') + 1)
-        const extensions = fileName.lastIndexOf('.') >= 0 ? fileName.substring(fileName.lastIndexOf('.') + 1) : ''
-        save({ filters: [{name: fileName, extensions: [extensions]}]}).then(path => {
-          writeFile(path, content)
+        save({title: "Save " + fileName}).then(path => {
+          writeFile(path, content).catch(err=> {
+            alert("文件写入失败:" + err)
+          })
         })
         this.activeFile = null
       }).finally(() => {
@@ -147,15 +158,6 @@ export default {
       }).catch(() => {
         this.activeFile = null
       })
-    },
-
-    async saveFile() {
-      await invoke('ssh_sftp_write', {
-        sessionId: this.sessionId,
-        filePath: this.activeFile,
-        data: Array.from(new TextEncoder().encode("fileContent")),
-      })
-      alert('保存成功')
     },
 
     async mkdir() {
@@ -190,7 +192,9 @@ export default {
       this.loadDir()
     },
 
-
+    bakHostTab() {
+      this.$bus.emit('show-host-list')
+    },
     disconnect() {
       if (this.closed) return;
       this.closed = true;
@@ -219,16 +223,20 @@ export default {
 
 /* 顶部 */
 .toolbar {
-  display: flex;
-  flex-wrap: wrap;
-  justify-content: space-between;
-  gap: 8px;
-  margin-bottom: 12px;
+  .path {
+    flex: 1;
+    margin-bottom: 10px;
+  }
+  .actions {
+    flex: 1;
+    margin-bottom: 10px;
+    text-align: center;
+    button {
+      margin-right: 6px;
+    }
+  }
 }
 
-.actions button {
-  margin-right: 6px;
-}
 
 /* 列表 */
 .file-list {
@@ -243,10 +251,9 @@ export default {
   padding: 12px;
   border-bottom: 1px solid #eee;
   cursor: pointer;
-}
-
-.file-item:hover {
-  background: #f6f6f6;
+  &:hover {
+    background: #6a6a6a;
+  }
 }
 
 .icon {
