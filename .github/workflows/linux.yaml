@@ -17,7 +17,6 @@ jobs:
             args: ''
           - platform: 'ubuntu-22.04'
             mobile: 'android'
-            tauri: 'yarn tauri android '
             args: ' --apk true --target aarch64 '
 
     runs-on: ${{ matrix.platform }}
@@ -103,7 +102,6 @@ jobs:
           uploadPlainBinary: true
           uploadWorkflowArtifacts: true
           uploadUpdaterSignatures: true
-          tauriScript: ${{ matrix.tauri || 'yarn tauri' }}
           mobile: ${{ matrix.mobile }}
 
       - name: Extract android signing key from env
