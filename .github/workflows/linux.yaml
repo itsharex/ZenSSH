@@ -100,13 +100,14 @@ jobs:
           releaseDraft: true
           args: ${{ matrix.args }}
           retryAttempts: 1
-          uploadPlainBinary: true
+          uploadPlainBinary: ${{ matrix.mobile == '' }}
           uploadWorkflowArtifacts: ${{ matrix.mobile == '' }}
-          uploadUpdaterSignatures: false
+          uploadUpdaterSignatures: ${{ matrix.mobile == '' }}
           tauriScript: ${{ matrix.tauri || 'yarn tauri' }}
           mobile: ${{ matrix.mobile }}
 
       - name: Extract android signing key from env
+        if: matrix.mobile == 'android'
         run: |
           echo "${{ secrets.ANDROID_KEY_BASE64 }}" > src-tauri/gen/android/release.jks.base64
           base64 -d src-tauri/gen/android/release.jks.base64 > src-tauri/gen/android/release.decrypted.jks
