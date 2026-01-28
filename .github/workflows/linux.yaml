@@ -13,12 +13,12 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - platform: 'ubuntu-24.04'
+          - platform: 'ubuntu-22.04'
             args: ''
-#          - platform: 'ubuntu-22.04'
-#            mobile: 'android'
-#            tauri: 'yarn tauri android '
-#            args: ' --apk true '
+          - platform: 'ubuntu-22.04'
+            mobile: 'android'
+            tauri: 'yarn tauri android '
+            args: ' --apk true --target aarch64 '
 
     runs-on: ${{ matrix.platform }}
     steps:
@@ -85,6 +85,17 @@ jobs:
 
       - name: install icon
         run: yarn icon
+
+      - name: setup Android signing
+        if: matrix.mobile == 'android'
+        run: |
+          yarn tauri android init
+          yarn icon
+          cd src-tauri/gen/android
+          echo "keyAlias=${{ secrets.ANDROID_KEY_ALIAS }}" > keystore.properties
+          echo "password=${{ secrets.ANDROID_KEY_PASSWORD }}" >> keystore.properties
+          base64 -d <<< "${{ secrets.ANDROID_KEY_BASE64 }}" > $RUNNER_TEMP/keystore.jks
+          echo "storeFile=$RUNNER_TEMP/keystore.jks" >> keystore.properties
 
       - name: Tauri Project
         uses: tauri-apps/tauri-action@v0.6.1

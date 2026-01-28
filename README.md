@@ -6,7 +6,7 @@ ZenSSH
 </p>
 
 [![Build Status](https://github.com/kischang/ZenSSH/actions/workflows/macos.yaml/badge.svg)](https://github.com/kischang/ZenSSH/actions/workflows/macos.yaml)
-[![Build Status](https://github.com/kischang/ZenSSH/actions/workflows/win.yaml/badge.svg)](https://github.com/kischang/ZenSSH/actions/workflows/win.yaml)
+[![Build Status](https://github.com/kischang/ZenSSH/actions/workflows/win32.yaml/badge.svg)](https://github.com/kischang/ZenSSH/actions/workflows/win.yaml)
 [![Build Status](https://github.com/kischang/ZenSSH/actions/workflows/linux.yaml/badge.svg)](https://github.com/kischang/ZenSSH/actions/workflows/linux.yaml)
 [![License](https://img.shields.io/github/license/kischang/ZenSSH)](LICENSE)
 
