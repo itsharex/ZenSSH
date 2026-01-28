@@ -6,14 +6,12 @@ import {
     setPassword,
     deletePassword
 } from "@/utils/plugin-keyring.js";
-import {CONSTANT} from "@/commons.js";
+import {CONSTANT, genId} from "@/commons.js";
 import client from "@/request.js"
 
 // config 前缀 k_
 // session 前缀 s_
-function genId() {
-    return crypto.randomUUID().replace(/-/g, '');
-}
+/////// genId
 
 function mergeList(list1 = [], list2 = [], keyName) {
     const map = new Map();

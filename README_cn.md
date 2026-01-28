@@ -26,7 +26,7 @@ ZenSSH 是一款基于 Tauri 构建的全平台 SSH 客户端，支持 SSH 连�
 
 - [x] SSH\Sftp\跳板机
 - [x] Gist Sync配置功能
-- [x] 自动更新
+- [x] 自动更新(仅PC端)
 
 ## IDE Setup
 

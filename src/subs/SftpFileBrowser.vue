@@ -41,14 +41,34 @@
         </div>
       </template>
     </el-drawer>
+
+
+    <el-dialog
+        v-model="downloadShow"
+        title="下载进度"
+        width="300"
+        :show-close="false"
+        :close-on-press-escape="false"
+        :close-on-click-modal="false">
+      <el-progress :text-inside="true" :stroke-width="26" :percentage="downloadProgress" />
+      <template #footer>
+        <div class="dialog-footer">
+          <el-button @click="handleDownloadCancel">取消下载</el-button>
+          <el-button :loading="downloadProgress < 100" type="primary" @click="downloadShow = false">
+            完成
+          </el-button>
+        </div>
+      </template>
+    </el-dialog>
   </div>
 </template>
 
 <script>
 import {save} from '@tauri-apps/plugin-dialog';
-import {writeFile} from '@tauri-apps/plugin-fs';
+import {writeFile, exists, create} from '@tauri-apps/plugin-fs';
 import {Channel, invoke} from '@tauri-apps/api/core'
 import {useTabsStore} from "@/store.js";
+import {genId} from "@/commons.js";
 
 export default {
   props: {
@@ -68,7 +88,8 @@ export default {
       tabStore: tabStore,
       currentDir: '.',
       files: [],
-      activeFile: null
+      activeFile: null,
+      downloadShow: false, downloadProgress: 0,
     }
   },
   mounted() {
@@ -89,6 +110,21 @@ export default {
     this.disconnect();
   },
   methods: {
+    onBackButtonPress() {
+      if (this.downloadShow) {
+        this.handleDownloadCancel()
+        return
+      }
+      if (this.activeFile) {
+        this.activeFile = null
+        return
+      }
+      if (this.currentDir === '/') {
+        this.bakHostTab()
+        return
+      }
+      this.goUp()
+    },
     async connect() {
       const connectConfig = Object.assign({}, this.session.config)
       connectConfig.configId = this.session.configId
@@ -124,25 +160,47 @@ export default {
         this.activeFile = this.currentDir + '/' + item.filename
       }
     },
-    handlePreview() {
-    },
     async handleDownload() {
-      const loading = this.$loading({})
+      const serverFilePath = this.activeFile
+      const fileName = this.activeFile.substring(this.activeFile.lastIndexOf('/') + 1)
+      this.activeFile = null
+      const savePath = await save({title: "Save " + fileName})
+      // 清空文件
+      await writeFile(savePath, new Uint8Array([]));
+      this.downloadProgress = 1
+      this.downloadShow = true
+      this.downloadTaskId = "task_" + genId()
+      const onDownEvent = new Channel();
+      onDownEvent.onmessage = async ({ event, data }) => {
+        if (event === 'chunk') {
+          // 逐步追加文件
+          await writeFile(savePath, data.data, {
+            append: true,
+          });
+        }
+        if (event === 'process') this.downloadProgress = data.val;
+        if (event === 'cancelled') {
+          this.$message({message: "下载已取消", type: "success"})
+        }
+      };
       invoke('ssh_sftp_read', {
+        taskId: this.downloadTaskId,
         sessionId: this.sessionId,
-        filePath: this.activeFile,
-      }).then(fileContent => {
-        let content = new TextEncoder().encode(fileContent)
-        const fileName = this.activeFile.substring(this.activeFile.lastIndexOf('/') + 1)
-        save({title: "Save " + fileName}).then(path => {
-          writeFile(path, content).catch(err=> {
-            alert("文件写入失败:" + err)
-          })
-        })
-        this.activeFile = null
-      }).finally(() => {
-        loading.close()
+        filePath: serverFilePath,
+        savePath: savePath,
+        onDownEvent: onDownEvent,
+      }).catch().finally(() => {
+        this.downloadShow = false;
       })
+    },
+    handleDownloadCancel() {
+      if (this.downloadTaskId) {
+        invoke('ssh_sftp_read_cancel', {
+          taskId: this.downloadTaskId,
+        }).catch().finally(() => {
+          this.downloadTaskId = null
+        })
+      }
     },
     async handleDelete() {
       this.$confirm("确认删除该文件？", {showClose: false}).then(rv => {

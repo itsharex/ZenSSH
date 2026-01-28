@@ -26,7 +26,7 @@ The goal of this project is to meet daily SSH usage needs **while keeping it lig
 
 * [x] SSH / SFTP / Jump Server
 * [x] Gist Sync for configuration
-* [x] Auto-update
+* [x] Auto-update (Only PC)
 
 ## IDE Setup
 

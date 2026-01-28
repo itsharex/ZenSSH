@@ -1,5 +1,8 @@
 import {type} from '@tauri-apps/plugin-os';
 
+export function genId() {
+    return crypto.randomUUID().replace(/-/g, '');
+}
 export function isMobile() {
     const p = type();
     if (p === 'android' || p === 'ios') {
