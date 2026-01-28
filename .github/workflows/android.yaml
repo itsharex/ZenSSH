@@ -1,4 +1,4 @@
-name: Linux
+name: Android
 
 on:
   release:
@@ -78,7 +78,7 @@ jobs:
         run: yarn icon
 
       - name: Tauri Project
-        uses: tauri-apps/tauri-action@dev
+        uses: kisChang/tauri-action@dev
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NDK_HOME: ${{ steps.setup-ndk.outputs.ndk-path }}
