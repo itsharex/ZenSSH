@@ -13,7 +13,7 @@
     <!-- 文件列表 -->
     <ul class="file-list">
       <li
-          v-for="item in files"
+          v-for="item in sortedFiles"
           :key="item.filename"
           class="file-item"
           @click="open(item)"
@@ -80,7 +80,22 @@ export default {
   computed: {
     sessionId(){
       return this.session.sessionId;
-    }
+    },
+    sortedFiles() {
+      return [...this.files].sort((a, b) => {
+        // 1️⃣ 目录优先
+        if (a.is_dir !== b.is_dir) {
+          return a.is_dir ? -1 : 1
+        }
+
+        // 2️⃣ 同类型按文件名排序
+        return a.filename.localeCompare(
+            b.filename,
+            undefined,
+            { sensitivity: 'base' } // 忽略大小写
+        )
+      })
+    },
   },
   data() {
     const tabStore = useTabsStore();
