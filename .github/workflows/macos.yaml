@@ -76,8 +76,6 @@ jobs:
         with:
           tagName: ${{ github.ref_name }}
           releaseName: "${{ github.ref_name }}"
-          releaseBody: "Draft release, will be updated later."
-          releaseDraft: true
           args: ${{ matrix.args }}
           retryAttempts: 1
           uploadPlainBinary: true
