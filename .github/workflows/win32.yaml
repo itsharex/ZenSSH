@@ -54,8 +54,5 @@ jobs:
           releaseDraft: true
           args: ${{ matrix.args }}
           retryAttempts: 1
-          uploadPlainBinary: ${{ matrix.mobile == '' }}
-          uploadWorkflowArtifacts: ${{ matrix.mobile == '' }}
-          uploadUpdaterSignatures: true
-          tauriScript: ${{ matrix.tauri || 'yarn tauri' }}
-          mobile: ${{ matrix.mobile }}
+          uploadPlainBinary: true
+          uploadWorkflowArtifacts: true

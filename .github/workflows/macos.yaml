@@ -82,6 +82,4 @@ jobs:
           retryAttempts: 1
           uploadPlainBinary: true
           uploadWorkflowArtifacts: true
-          uploadUpdaterSignatures: false
-          tauriScript: ${{ matrix.tauri || 'yarn tauri' }}
           mobile: ${{ matrix.mobile }}

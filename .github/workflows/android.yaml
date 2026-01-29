@@ -107,5 +107,4 @@ jobs:
           retryAttempts: 1
           uploadPlainBinary: true
           uploadWorkflowArtifacts: true
-          uploadUpdaterSignatures: true
           mobile: ${{ matrix.mobile }}
