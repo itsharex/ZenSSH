@@ -1,5 +1,5 @@
 <template>
-  <div class="content" style="text-align: center;">
+  <div class="host-content" style="text-align: center;">
     <div v-if="showConnect">
       <connect-form v-model="config" />
       <div style="text-align: center;display: flex;padding: 0 5vw;">
@@ -133,7 +133,7 @@ export default {
 <style scoped lang="scss">
 $green: #22c55e;
 
-.content {
+.host-content {
   width: 100vw;
   ::v-deep(.conn-form) {
     width: 90%;
@@ -141,7 +141,7 @@ $green: #22c55e;
 
   .config-list {
     padding: 0 10px;
-    height: calc(100vh - 250px);
+    height: calc(100vh - 320px);
     user-select: none;
     .config-item:first-child {
       border-top: 1px solid #aeaeae;

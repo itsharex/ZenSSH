@@ -314,7 +314,7 @@ export default {
 
 /* 列表 */
 .file-list {
-  height: calc(100vh - 150px);
+  height: calc(100vh - 200px);
   ul {
     list-style: none;
     padding: 0;

@@ -144,12 +144,13 @@ $text-main: #ffffff;
 $text-sub: #94a3b8;
 
 .hosts-page {
-  height: 100vh;
+  position: fixed;
+  top: env(safe-area-inset-top);
+  bottom: env(safe-area-inset-bottom);
+  left: 0;
+  right: 0;
   background: $bg;
   color: $text-main;
-  display: flex;
-  flex-direction: column;
-  position: relative;
 }
 
 /* Header */
@@ -180,12 +181,7 @@ $text-sub: #94a3b8;
   }
 }
 
-/* Content */
 .content {
-  flex: 1;
-  display: flex;
-  flex-direction: column;
-
   h2 {
     margin-top: 10vh;
     font-size: 20px;
@@ -201,9 +197,13 @@ $text-sub: #94a3b8;
 
 }
 
-/* Tabbar */
 .tabbar {
-  height: 64px;
+  position: fixed;
+  left: 0;
+  right: 0;
+  bottom: 0;
+
+  height: 60px;
   display: flex;
   background: #020617;
   border-top: 1px solid #1e293b;
@@ -218,8 +218,9 @@ $text-sub: #94a3b8;
 
     &.active {
       color: $text-main;
-      background: #0b1220;
+      background: #252d3a;
     }
+
     span {
       font-size: 0.7rem;
     }
