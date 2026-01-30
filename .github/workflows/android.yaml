@@ -92,7 +92,7 @@ jobs:
           mv build/build.gradle.kts src-tauri/gen/android/app/build.gradle.kts
 
       - name: Tauri Project
-        uses: kisChang/tauri-action@dev
+        uses: tauri-apps/tauri-action@dev
         env:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           NDK_HOME: ${{ steps.setup-ndk.outputs.ndk-path }}
@@ -101,7 +101,7 @@ jobs:
         with:
           tagName: ${{ github.ref_name }}
           releaseName: "${{ github.ref_name }}"
-          releaseAssetNamePattern: '[name]_[version]_[platform]_[arch]_[setup].[ext]'
+          releaseAssetNamePattern: '[name]_[version]_[platform]_[arch][_setup][ext]'
           args: ${{ matrix.args }}
           retryAttempts: 1
           uploadPlainBinary: true
