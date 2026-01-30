@@ -6,7 +6,7 @@
            size="large"
            label-suffix=":"
            @submit="false">
-    <template v-if="isMobile">
+<!--    <template v-if="isMobile">
       <h3>虚拟键盘配置：</h3>
       <el-form-item label="震动">
         <el-slider v-model="setting.virtualKeyboardVibrate"
@@ -16,7 +16,7 @@
         <span v-if="setting.virtualKeyboardVibrate > 0" style="margin-left: 15px">{{setting.virtualKeyboardVibrate}}ms</span>
         <span v-else style="margin-left: 15px;color: #F40">禁用</span>
       </el-form-item>
-    </template>
+    </template>-->
 
     <h3>配置云同步：</h3>
     <el-form-item label="同步方式">
@@ -33,10 +33,10 @@
       <el-form-item label="配置ID" prop="gistsFileId">
         <el-input v-model="settingForm.gistsFileId" placeholder="配置ID" />
       </el-form-item>
-      <el-form-item label="备份状态">
+      <el-form-item label="同步状态">
         <div style="display: block;">
           <span v-if="settingForm.gistsFileId && settingForm.gistsLastSync">
-            Sync at {{ settingForm.gistsLastSync }}
+            {{ settingForm.gistsLastSync }}
           </span>
           <span v-else>从未同步</span>
         </div>
@@ -45,7 +45,8 @@
         </div>
       </el-form-item>
     </template>
-    <el-form-item label="同步密钥">
+    <h3>基础配置：</h3>
+    <el-form-item label="加密密钥">
       <el-button size="default" type="primary" @click="resetKeyring">重置</el-button>
     </el-form-item>
 
@@ -84,11 +85,9 @@ export default {
     handleSave(){
       this.$refs.form.validate(valid => {
         if (valid) {
-          this.$confirm("确定保存配置并重载（以应用新配置）？", {showClose: false}).then(() => {
-            this.save(() => {
-              this.notify({message: "保存成功", type: "success"})
-            })
-          }).catch(() => {})
+          this.save(() => {
+            this.notify({message: "保存成功", type: "success"})
+          })
         }
       })
     },

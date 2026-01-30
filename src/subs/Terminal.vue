@@ -125,16 +125,16 @@ export default {
       const connectConfig = Object.assign({}, this.session.config)
       connectConfig.configId = this.session.configId
       connectConfig.sessionId = this.session.sessionId
+      let fontSize = isMobile() ? 12 : 14
       // 初始化 Terminal
       this.term = new Terminal({
         cursorBlink: true,
-        fontSize: 14,
+        fontSize: fontSize,
         allowTransparency: true,
         fontFamily: 'monospace',
         overviewRuler: {
           width: 5,
         },
-        // smoothScrollDuration: 50,
         cursorStyle: 'bar',
         cursorInactiveStyle: 'bar',
         linkHandler: {

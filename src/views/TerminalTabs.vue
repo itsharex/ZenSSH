@@ -3,7 +3,7 @@
       ref="tab"
       v-model="activeTab"
       type="card"
-      class="terminal-tabs"
+      :class="activeTab === 'welcome' ? 'terminal-tabs-welcome' : 'terminal-tabs'"
       @contextmenu="handleContextmenu">
     <el-tab-pane
         v-for="item in tabs"
@@ -193,8 +193,11 @@ export default {
 </script>
 
 <style scoped lang="scss">
+.terminal-tabs-welcome {
+  height: calc(100vh - 100px);
+}
 .terminal-tabs {
-  height: 100%;
+  height: calc(100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom));
   background: #222;
   ::v-deep(.el-tabs__item.is-active) {
     padding-left: 10px !important;

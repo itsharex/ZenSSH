@@ -195,8 +195,8 @@ export default {
       }
       this.activeKey = key;
 
+      // 处理删除功能
       if (key === '⌫') {
-        // 处理删除功能
         key = '\b';
       }
       this.press(key);
@@ -204,11 +204,11 @@ export default {
       //这几个不触发repeat
       if (key === 'Shift' || key === 'SHIFT' ||key === 'Ctrl') return;
 
-      this.repeatDelayTimer = setTimeout(() => {
-        this.repeatTimer = setInterval(() => {
-          this.onDown(key);
-        }, 500);
-      }, 300);
+      // this.repeatDelayTimer = setTimeout(() => {
+      //   this.repeatTimer = setInterval(() => {
+      //     this.onDown(key);
+      //   }, 500);
+      // }, 300);
     },
 
     onUp() {
