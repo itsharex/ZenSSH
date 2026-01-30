@@ -2,94 +2,58 @@
   <div class="keyboard">
     <!-- 顶部功能行 -->
     <div class="row">
-      <button @pointerdown.prevent="onDown('\x1b')"
-              @pointerup="onUp"
-              @pointerleave="onUp">Esc</button>
-      <button @pointerdown.prevent="onDown('/')"
-              @pointerup="onUp"
-              @pointerleave="onUp">/</button>
-      <button @pointerdown.prevent="onDown('|')"
-              @pointerup="onUp"
-              @pointerleave="onUp">|</button>
-      <button @pointerdown.prevent="onDown('-')"
-              @pointerup="onUp"
-              @pointerleave="onUp">-</button>
-      <button @pointerdown.prevent="onDown('\x1b[A')"
-              @pointerup="onUp"
-              @pointerleave="onUp">↑</button>
-      <button @pointerdown.prevent="onDown('\x03')"
-              @pointerup="onUp"
-              @pointerleave="onUp">⌃C</button>
-      <button @pointerdown.prevent="onDown('~')"
-              @pointerup="onUp"
-              @pointerleave="onUp">~</button>
+      <key-btn :code="'\x1b'" title="Esc" @press="onDown"/>
+      <key-btn :code="'/'" title="/" @press="onDown"/>
+      <key-btn :code="'|'" title="|" @press="onDown"/>
+      <key-btn :code="'-'" title="-" @press="onDown"/>
+      <key-btn :code="'\x1b[A'" title="↑" @press="onDown"/>
+      <key-btn :code="'\x03'" title="⌃C" @press="onDown"/>
+      <key-btn :code="'~'" title="~" @press="onDown"/>
     </div>
     <div class="row">
-      <button @pointerdown.prevent="onDown('\x09')"
-              @pointerup="onUp"
-              @pointerleave="onUp">Tab</button>
-      <button @pointerdown.prevent="onDown('\x1b[5~')"
-              @pointerup="onUp"
-              @pointerleave="onUp">PgUp</button>
-      <button @pointerdown.prevent="onDown('\x1b[6~')"
-              @pointerup="onUp"
-              @pointerleave="onUp">PgDn</button>
-      <button @pointerdown.prevent="onDown('\x1b[D')"
-              @pointerup="onUp"
-              @pointerleave="onUp">←</button>
-      <button @pointerdown.prevent="onDown('\x1b[B')"
-              @pointerup="onUp"
-              @pointerleave="onUp">↓</button>
-      <button @pointerdown.prevent="onDown('\x1b[C')"
-              @pointerup="onUp"
-              @pointerleave="onUp">→</button>
-      <button @pointerdown.prevent="onDown('.')"
-              @pointerup="onUp"
-              @pointerleave="onUp">.</button>
+      <key-btn :code="'\x09'" title="Tab" @press="onDown"/>
+      <key-btn :code="'\x1b[5~'" title="PgUp" @press="onDown"/>
+      <key-btn :code="'\x1b[6~'" title="PgDn" @press="onDown"/>
+      <key-btn :code="'\x1b[D'" title="←" @press="onDown"/>
+      <key-btn :code="'\x1b[B'" title="↓" @press="onDown"/>
+      <key-btn :code="'\x1b[C'" title="→" @press="onDown"/>
+      <key-btn :code="'.'" title="." @press="onDown"/>
     </div>
 
     <!-- 数字行 -->
     <div class="row">
-      <button v-for="key in currentNumbers"
-              :key="key"
-              :class="{ pressed: activeKey === key }"
-              @pointerdown.prevent="onDown(key)"
-              @pointerup="onUp"
-              @pointerleave="onUp">
-        {{ key }}
-      </button>
+      <key-btn v-for="key in currentNumbers"
+               :key="key"
+               :code="key" :title="key"
+               @press="onDown"/>
     </div>
 
     <!-- 字母区 -->
     <div class="row" v-for="row in currentLetters" :key="row.join('')">
-      <button v-for="key in row"
-              :key="key"
-              :class="[keyClass(key), { pressed: activeKey === key }]"
-              @pointerdown.prevent="onDown(key)"
-              @pointerup="onUp"
-              @pointerleave="onUp">
-        {{ key }}
-      </button>
+      <key-btn v-for="key in row"
+               :disabled="key === ''"
+               :class="[keyClass(key)]"
+               :key="key"
+               :code="key" :title="key"
+               @press="onDown"/>
     </div>
 
     <!-- 底部功能行 -->
     <div class="row">
-      <button :class="[keyClass('Ctrl'), { pressed: activeKey === 'Ctrl' }]" @pointerdown.prevent="onDown('Ctrl')">Ctrl</button>
+      <key-btn :class="[keyClass('Ctrl')]" :code="'Ctrl'" title="Ctrl" @press="onDown"/>
 
-      <button @pointerdown.prevent="toggleSymbol">
+
+      <key-btn :code="'Symbol'" title="." @press="toggleSymbol">
         {{ mode === 'symbol' ? 'ABC' : '?123' }}
-      </button>
+      </key-btn>
 
-      <button style="flex: 3;"
-              @pointerdown.prevent="onDown(' ')"
-              @pointerup="onUp"
-              @pointerleave="onUp">Space</button>
+      <key-btn style="flex: 3;"
+               :code="' '"
+               title="Space" @press="onDown"/>
 
-      <button style="flex: 2;"
-              :class="keyClass('Enter')"
-              @pointerdown.prevent="onDown('Enter')"
-              @pointerup="onUp"
-              @pointerleave="onUp">Enter</button>
+      <key-btn style="flex: 2;"
+               :class="[keyClass('Enter')]"
+               :code="'Enter'" title="Enter" @press="onDown"/>
     </div>
   </div>
 </template>
@@ -98,6 +62,7 @@
 import { vibrate } from '@tauri-apps/plugin-haptics'
 import { readText } from '@tauri-apps/plugin-clipboard-manager';
 import {appConfigStore} from "@/store.js";
+import KeyBtn from "@/mobile/key-btn.vue";
 
 const fnMap = {
   F1: '\x1bOP',
@@ -117,6 +82,7 @@ const fnMap = {
 
 export default {
   name: "Keyboard",
+  components: {KeyBtn},
   data() {
     return {
       shift: false,
@@ -200,21 +166,6 @@ export default {
         key = '\b';
       }
       this.press(key);
-
-      //这几个不触发repeat
-      if (key === 'Shift' || key === 'SHIFT' ||key === 'Ctrl') return;
-
-      // this.repeatDelayTimer = setTimeout(() => {
-      //   this.repeatTimer = setInterval(() => {
-      //     this.onDown(key);
-      //   }, 500);
-      // }, 300);
-    },
-
-    onUp() {
-      this.activeKey = null;
-      clearTimeout(this.repeatDelayTimer);
-      clearInterval(this.repeatTimer);
     },
 
     press(key) {
@@ -307,15 +258,9 @@ button {
     flex: 0.3;
   }
 
-  &.pressed {
-    background: #007bff !important;
-    transform: scale(0.95);
-  }
-
   &.active {
     background: #007bff;
     &.keep {
-      font-weight: bold;
       font-size: 15px;
     }
   }

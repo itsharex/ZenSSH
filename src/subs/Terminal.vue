@@ -386,7 +386,7 @@ export default {
 .terminal-container {
   display: flex;
   flex-direction: column;
-  height: calc(100vh - 80px);
+  height: calc(100vh - 70px);
 }
 
 .my-terminal {
