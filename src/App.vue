@@ -114,27 +114,27 @@ export default {
     listen("ssh_close", event => {
       const {session_id, exit_status} = event.payload;
       this.$bus.emit("ssh_close_" + session_id, {session_id, exit_status});
-    })
-    // 加载云端同步数据
-    this.isLoading = true
-    appConfigStore().loadByCloud().then(res => {
-      if (res) {
-        this.notify({message: "加载云端数据成功", type: "success"})
-        this.$forceUpdate()
-      }
-    }).catch(err => {
+    }).catch()
+
+    this.initAppData().catch(err => {
       this.notify({message: "配置同步失败：" + err, type: "error"})
     }).finally(() => {
       // 推送一次配置信息到后端
       useMngStore().syncConfig();
       // 结束loading
       this.isLoading = false
-
-      //TODO 测试代码
-      // this.openSetting()
     })
   },
   methods: {
+    async initAppData() {
+      // 加载云端同步数据
+      this.isLoading = true
+      let res = appConfigStore().loadByCloud()
+      if (res) {
+        this.notify({message: "加载云端数据成功", type: "success"})
+        this.$forceUpdate()
+      }
+    },
     handleCheckUpdate(byUser) {
       check().then(update => {
         if (update) {
