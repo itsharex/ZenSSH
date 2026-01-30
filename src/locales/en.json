@@ -1,11 +1,59 @@
 {
   "common": {
     "hello": "Connect via SSH, or directly connect to your device using FTP to access the file system.",
-    "lang": "Language"
+    "lang": "Language",
+    "submit": "Save Configuration",
+    "disable": "Disable",
+    "reset": "Reset"
   },
-  "app": {
+  "main": {
     "host": "Host",
-    "conn": "Connecting",
-    "setting": "Settings"
+    "conn": "Connection",
+    "setting": "Settings",
+    "quickConnect": "Connect Now"
+  },
+  "connect": {
+    "name": "Name",
+    "name_placeholder": "Please enter a connection name",
+    "host": "Host",
+    "host_placeholder": "Host address",
+    "port": "Port",
+    "port_placeholder": "SSH port (default 22)",
+    "username": "Username",
+    "username_placeholder": "Username",
+    "authType": "Authentication Method",
+    "authType_pw": "Password",
+    "authType_key": "Private Key",
+    "passwordNew_placeholder": "Change password",
+    "password": "Password",
+    "password_placeholder": "Password",
+    "privateKeyPath": "Private Key Path",
+    "privateKeyPath_placeholder": "Private key file path (~/.ssh/id_rsa)",
+    "privateKeyData": "Private Key Content",
+    "privateKeyData_placeholder": "Paste private key content directly (recommended, higher priority than path and can be synced)",
+    "keyPassword": "Private Key Passphrase",
+    "keyPassword_placeholder": "Private key passphrase (optional)",
+    "bastionConfigId": "Bastion Session",
+    "bastionConfigId_placeholder": "Please select a bastion session (optional)",
+    "timeout": "Timeout (seconds)",
+    "keepaliveInterval": "Keepalive Interval",
+    "name_message": "Name length must be between 3 and 20 characters",
+    "host_message": "Please enter the host address",
+    "port_message": "Please enter the SSH port",
+    "username_message": "Please enter the authorized username",
+    "password_message": "Please enter the password"
+  },
+  "setting": {
+    "sync_config": "Cloud Sync:",
+    "syncType": "Sync",
+    "base_config": "Basic:",
+    "keyring": "Keyring",
+    "syncNow": "Sync Now",
+    "gistsAccessToken": "Token",
+    "gistsAccessToken_placeholder": "User access token",
+    "gistsFileId": "Config ID",
+    "gistsFileId_placeholder": "Configuration ID",
+    "gistsLastSync": "Status",
+    "gistsLastSyncNo": "Never synced"
   }
 }

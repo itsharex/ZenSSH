@@ -1,19 +1,21 @@
 <template>
   <div class="host-content" style="text-align: center;">
     <div v-if="showConnect">
-      <connect-form v-model="config" />
-      <div style="text-align: center;display: flex;padding: 0 5vw;">
-        <button class="btn" style="width: 30%;margin-right: 10px;" @click="showConnect = false">
-          <el-icon><DArrowLeft /></el-icon>
-        </button>
-        <button v-if="config.configId" class="btn" @click="handleUpdateSubmit">
-          保存配置
-        </button>
-        <button v-else class="btn" @click="quickConnect">
-          <el-icon><Position /></el-icon>
-          立即连接
-        </button>
-      </div>
+      <el-scrollbar height="80vh">
+        <connect-form ref="connectForm" v-model="config" />
+        <div style="text-align: center;display: flex;padding: 0 5vw;">
+          <button class="btn" style="width: 30%;margin-right: 10px;" @click="showConnect = false">
+            <el-icon><DArrowLeft /></el-icon>
+          </button>
+          <button v-if="config.configId" class="btn" @click="handleUpdateSubmit">
+            {{ $t('common.submit') }}
+          </button>
+          <button v-else class="btn" @click="quickConnect">
+            <el-icon><Position /></el-icon>
+            {{ $t('main.quickConnect') }}
+          </button>
+        </div>
+      </el-scrollbar>
     </div>
     <div v-else-if="configList.length" style="text-align: center;">
       <img class="app-icon" src="/logo.png"/>
@@ -96,8 +98,10 @@ export default {
       this.config = conf
     },
     handleUpdateSubmit() {
-      this.showConnect = false
-      this.appMng.updateConfig(this.config)
+      this.$refs.connectForm.valid(() => {
+        this.showConnect = false
+        this.appMng.updateConfig(this.config)
+      })
     },
     handleConnConf(){
       this.showDrawer = false
@@ -121,10 +125,12 @@ export default {
       }).catch()
     },
     quickConnect(){
-      this.showConnect = false
-      this.appMng.addConfig(this.config, true)
-      // 跳转到连接
-      this.$bus.emit('mobile-connect-ssh', this.config)
+      this.$refs.connectForm.valid(() => {
+        this.showConnect = false
+        this.appMng.addConfig(this.config, false)
+        // 跳转到连接
+        this.$bus.emit('mobile-connect-ssh', this.config)
+      })
     },
   }
 }
@@ -135,7 +141,7 @@ $green: #22c55e;
 
 .host-content {
   width: 100vw;
-  ::v-deep(.conn-form) {
+  :deep(.conn-form) {
     width: 90%;
   }
 

@@ -279,7 +279,7 @@ export default {
   .aside-hidden {
     width: 0 !important;
   }
-  ::v-deep(.el-splitter) {
+  :deep(.el-splitter) {
     height: calc(100vh - 30px);
   }
 }
@@ -336,9 +336,8 @@ html, body {
   }
 }
 .btn {
-  margin-top: 16px;
   width: 100%;
-  padding: 14px;
+  padding: 12px;
   border-radius: 12px;
   border: none;
   background: #22c55e;

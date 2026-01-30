@@ -3,6 +3,7 @@
            :model="settingForm"
            :rules="settingRules"
            label-width="5rem"
+           class="setting-form"
            size="large"
            label-suffix=":"
            @submit="false">
@@ -14,40 +15,42 @@
                    :show-tooltip="false"
                    :step="5" show-stops :min="0" :max="50" />
         <span v-if="setting.virtualKeyboardVibrate > 0" style="margin-left: 15px">{{setting.virtualKeyboardVibrate}}ms</span>
-        <span v-else style="margin-left: 15px;color: #F40">禁用</span>
+        <span v-else style="margin-left: 15px;color: #F40">{{ $t('common.disable') }}</span>
       </el-form-item>
     </template>-->
 
-    <h3>配置云同步：</h3>
-    <el-form-item label="同步方式">
+    <h3>{{ $t('setting.sync_config') }}</h3>
+    <el-form-item :label="$t('setting.syncType')">
       <el-radio-group v-model="settingForm.syncType">
-        <el-radio :value="0">禁用</el-radio>
+        <el-radio :value="0">{{ $t('common.disable') }}</el-radio>
         <el-radio :value="1">Gitee Gist</el-radio>
         <el-radio :value="2">Github Gist</el-radio>
       </el-radio-group>
     </el-form-item>
     <template v-if="settingForm.syncType === 1 || settingForm.syncType === 2">
-      <el-form-item label="授权码" prop="gistsAccessToken">
-        <el-input v-model="settingForm.gistsAccessToken" placeholder="用户授权码" />
+      <el-form-item :label="$t('setting.gistsAccessToken')" prop="gistsAccessToken">
+        <el-input v-model="settingForm.gistsAccessToken" :placeholder="$t('setting.gistsAccessToken_placeholder')" />
       </el-form-item>
-      <el-form-item label="配置ID" prop="gistsFileId">
-        <el-input v-model="settingForm.gistsFileId" placeholder="配置ID" />
+      <el-form-item :label="$t('setting.gistsFileId')" prop="gistsFileId">
+        <el-input v-model="settingForm.gistsFileId" :placeholder="$t('setting.gistsFileId_placeholder')" />
       </el-form-item>
-      <el-form-item label="同步状态">
+      <el-form-item :label="$t('setting.gistsLastSync')">
         <div style="display: block;">
           <span v-if="settingForm.gistsFileId && settingForm.gistsLastSync">
             {{ settingForm.gistsLastSync }}
           </span>
-          <span v-else>从未同步</span>
+          <span v-else>{{ $t('settingForm.gistsLastSyncNo') }}</span>
         </div>
         <div style="display: block;margin-left: 20px;">
-          <el-button :loading="syncConfigLoading" size="default" type="primary" @click="syncConfig">立即同步</el-button>
+          <el-button :loading="syncConfigLoading" size="default" type="primary" @click="syncConfig">
+            {{ $t('setting.syncNow') }}
+          </el-button>
         </div>
       </el-form-item>
     </template>
-    <h3>基础配置：</h3>
-    <el-form-item label="加密密钥">
-      <el-button size="default" type="primary" @click="resetKeyring">重置</el-button>
+    <h3>{{ $t('setting.base_config') }}</h3>
+    <el-form-item :label="$t('setting.keyring')">
+      <el-button size="default" type="primary" @click="resetKeyring">{{ $t('common.reset') }}</el-button>
     </el-form-item>
     <el-form-item :label="$t('common.lang')">
       <el-select v-model="settingForm.locale">
@@ -57,7 +60,7 @@
     </el-form-item>
 
     <div style="display: inline-block;min-width: 10rem;text-align: center;">
-      <div class="btn" @click="handleSave">保存配置</div>
+      <div class="btn" @click="handleSave">{{ $t('common.submit') }}</div>
     </div>
   </el-form>
 </template>
@@ -149,5 +152,13 @@ export default {
 <style scoped lang="scss">
 h3 {
   text-align: left;
+}
+.setting-form{
+  :deep(.el-form-item) {
+    margin-bottom: 18px;
+  }
+  :deep(.el-form-item__error) {
+    font-size: 10px;
+  }
 }
 </style>

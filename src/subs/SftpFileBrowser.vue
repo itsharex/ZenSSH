@@ -281,7 +281,7 @@ export default {
 
 <style lang="scss" scoped>
 @media (min-width: 768px) {
-  ::v-deep(.el-drawer){
+  :deep(.el-drawer){
     &.btt {
       left: 25%;
       width: 50%;

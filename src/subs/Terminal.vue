@@ -392,7 +392,7 @@ export default {
 .my-terminal {
   flex: 1;
   background: #000000;
-  ::v-deep(.xterm-decoration-overview-ruler) {
+  :deep(.xterm-decoration-overview-ruler) {
     display: none !important;
   }
 }

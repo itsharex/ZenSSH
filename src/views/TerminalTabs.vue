@@ -199,7 +199,7 @@ export default {
 .terminal-tabs {
   height: calc(100vh - env(safe-area-inset-top) - env(safe-area-inset-bottom));
   background: #222;
-  ::v-deep(.el-tabs__item.is-active) {
+  :deep(.el-tabs__item.is-active) {
     padding-left: 10px !important;
     padding-right: 10px !important;
   }

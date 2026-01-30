@@ -2,7 +2,6 @@
   <div class="content" style="text-align: center;">
     <setting-form />
 
-
     <footer class="mobile-footer">Copyright © 2026, by <a @click="showAbout">KisChang</a></footer>
   </div>
 </template>
@@ -30,7 +29,7 @@ export default {
   padding: 0 10px;
   .mobile-footer {
     font-size: 0.9rem;
-    margin-top: 50px;
+    margin-top: 20px;
   }
 }
 </style>

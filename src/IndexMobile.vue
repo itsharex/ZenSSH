@@ -20,15 +20,15 @@
     <footer class="tabbar" v-if="!titleHidden">
       <div class="tab" @click="toggleTab('host')" :class="{active : activeTab === 'host'}">
         <el-icon :size="20"><Platform /></el-icon>
-        <span>{{ $t('app.host') }}</span>
+        <span>{{ $t('main.host') }}</span>
       </div>
       <div class="tab" @click="toggleTab('conn')" :class="{active : activeTab === 'conn'}">
         <el-icon :size="20"><Connection /></el-icon>
-        <span>{{ $t('app.conn') }}</span>
+        <span>{{ $t('main.conn') }}</span>
       </div>
       <div class="tab" @click="toggleTab('setting')" :class="{active : activeTab === 'setting'}">
         <el-icon :size="20"><SetUp /></el-icon>
-        <span>{{ $t('app.setting') }}</span>
+        <span>{{ $t('main.setting') }}</span>
       </div>
     </footer>
   </div>
@@ -121,9 +121,9 @@ export default {
   methods: {
     toggleTab: function (to) {
       const titleMap = {
-        'host': "app.host",
-        'conn': "app.conn",
-        'setting': "app.setting",
+        'host': "main.host",
+        'conn': "main.conn",
+        'setting': "main.setting",
       }
       this.activeTab = to
       this.title = this.$t(titleMap[to])

@@ -20,7 +20,7 @@
         :close-on-press-escape="false"
         top="5vh"
         modal-class="app-dialog">
-      <connect-form v-model="config" />
+      <connect-form ref="connectForm" v-model="config" />
       <template #footer>
         <div class="dialog-footer">
           <el-button @click="showConnect = false">取消</el-button>
@@ -99,8 +99,10 @@ export default {
       this.configAdd = true
     },
     quickConnect(){
-      this.showConnect = false
-      this.appMng.addConfig(this.config, true)
+      this.$refs.connectForm.valid(() => {
+        this.showConnect = false
+        this.appMng.addConfig(this.config, true)
+      })
     },
     configReConnect(config){
       useTabsStore().connectConfig(config, 'connect')
@@ -129,9 +131,11 @@ export default {
       }).catch(() => {})
     },
     saveConfig() {
-      this.appMng.updateConfig(this.config)
-      this.showConnect = false
-      this.configAdd = true
+      this.$refs.connectForm.valid(() => {
+        this.appMng.updateConfig(this.config)
+        this.showConnect = false
+        this.configAdd = true
+      })
     },
     handleContextmenu(event, config) {
       const { clientX, clientY } = event
@@ -149,7 +153,7 @@ export default {
 
 <style scoped lang="scss">
 @media (max-width: 768px) {
-  ::v-deep(.el-dialog) {
+  :deep(.el-dialog) {
     width: 90% !important;
   }
 }
