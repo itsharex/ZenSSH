@@ -18,10 +18,10 @@
             <el-divider />
             <el-menu-item index="2-3" @click="appExit">退出</el-menu-item>
           </el-sub-menu>-->
-          <el-menu-item index="2" @click="toggleSessionManage">链接管理</el-menu-item>
-          <el-menu-item index="3" @click="openSetting">应用配置</el-menu-item>
+          <el-menu-item index="2" @click="toggleSessionManage">{{ $t('main.host') }}</el-menu-item>
+          <el-menu-item index="3" @click="openSetting">{{ $t('main.setting') }}</el-menu-item>
           <el-menu-item index="4" @click="handleCheckUpdate(true)">{{update ? ("检测到更新：" + update.version) : "检查更新"}}</el-menu-item>
-          <el-menu-item index="5" @click="showAbout">关于</el-menu-item>
+          <el-menu-item index="5" @click="showAbout">{{ $t('main.about') }}</el-menu-item>
         </el-menu>
 
         <el-dialog

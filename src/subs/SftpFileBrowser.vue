@@ -4,7 +4,7 @@
     <div class="toolbar">
       <div class="path">📂 {{ currentDir }}</div>
       <div class="actions">
-        <button @click="bakHostTab">🏡 Home</button>
+        <button @click="bakHostTab">🏡 Host</button>
         <button @click="goUp">🔼 Back</button>
         <button @click="mkdir">📁 mkdir</button>
       </div>
