@@ -3,14 +3,17 @@ import {ElNotification} from 'element-plus'
 
 const _isMobile = isMobile()
 export function notify(options) {
-    ElNotification({
+    const notify = ElNotification({
         title: options.title,
         message: options.message,
         type: options.type,
         zIndex: options.zIndex | 0,
         offset: 30,
-        duration: options.duration | 4500,
-        showClose: !_isMobile
+        duration: options.duration | 3000,
+        showClose: !_isMobile,
+        onClick: () => {
+            notify.close()
+        }
     })
 }
 
