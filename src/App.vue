@@ -143,7 +143,7 @@ export default {
     async initAppData() {
       // 加载云端同步数据
       this.isLoading = true
-      let res = appConfigStore().loadByCloud()
+      let res = await appConfigStore().loadByCloud()
       if (res) {
         this.notify({message: "加载云端数据成功", type: "success"})
         this.$forceUpdate()

@@ -39,7 +39,7 @@
           <span v-if="settingForm.gistsFileId && settingForm.gistsLastSync">
             {{ settingForm.gistsLastSync }}
           </span>
-          <span v-else>{{ $t('settingForm.gistsLastSyncNo') }}</span>
+          <span v-else>{{ $t('setting.gistsLastSyncNo') }}</span>
         </div>
         <div style="display: block;margin-left: 20px;">
           <el-button :loading="syncConfigLoading" size="default" type="primary" @click="syncConfig">
