@@ -6,8 +6,8 @@ ZenSSH
 </p>
 
 <p align="center">
-<a href="README_cn.md">中文</a> | 
-<a href="README.md">English</a>
+<a href="README.md">中文</a> | 
+<a href="README_en.md">English</a>
 </p>
 
 [![Build Status](https://github.com/kischang/ZenSSH/actions/workflows/win32.yaml/badge.svg)](https://github.com/kischang/ZenSSH/actions/workflows/win.yaml)
@@ -16,39 +16,42 @@ ZenSSH
 [![Build Status](https://github.com/kischang/ZenSSH/actions/workflows/macos.yaml/badge.svg)](https://github.com/kischang/ZenSSH/actions/workflows/macos.yaml)
 [![License](https://img.shields.io/github/license/kischang/ZenSSH)](LICENSE)
 
-ZenSSH is a cross-platform SSH client built with Tauri, supporting SSH connections and SFTP file transfers. It also supports jump servers, focusing on providing a **simple, stable, and user-friendly core experience**.
+ZenSSH 是一款基于 Tauri 构建的全平台 SSH 客户端，支持 SSH 连接与 SFTP 文件传输，支持跳板机，专注于提供简洁、稳定、易用的核心功能体验。
 
-The goal of this project is to meet daily SSH usage needs **while keeping it lightweight and performant**, avoiding unnecessary complex features, making it ideal for developers and operations personnel.
+项目目标是在保证轻量与性能的前提下，满足日常 SSH 使用场景，避免复杂冗余的功能设计，适合开发者和运维人员的日常使用。
 
-⚠️ **Note:** This is an early development version. Only core functionalities have been verified and it has not been fully tested.
+注意！当前为早期开发版，仅验证核心功能可用，未完整测试。
 
-## Features
+## Features 
 
-* [x] SSH / SFTP / Jump Server
-* [x] Gist Sync for configuration
-* [x] Auto-update (Only PC)
-* [ ] Text file preview and editing
-* [ ] Shell-specific keyboard with keyboard vibration
-* [ ] Auto Complete
+- [x] SSH\Sftp\跳板机
+- [x] Gist Sync配置功能
+- [x] 自动更新(仅PC端)
+- [ ] 文本文件预览和编辑
+- [ ] Shell专用键盘，键盘震动
+- [ ] 自动完成
 
 ## IDE Setup
 
-* [VS Code](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) + [Tauri](https://marketplace.visualstudio.com/items?itemName=tauri-apps.tauri-vscode) + [rust-analyzer](https://marketplace.visualstudio.com/items?itemName=rust-lang.rust-analyzer)
+- [VS Code](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) + [Tauri](https://marketplace.visualstudio.com/items?itemName=tauri-apps.tauri-vscode) + [rust-analyzer](https://marketplace.visualstudio.com/items?itemName=rust-lang.rust-analyzer)
 
-## Notes
 
-The `src-tauri` folder is **not open-sourced yet**, but it may be in the future.
+## 说明
 
-## License
+src-tauri 目前暂未开源，后续会考虑开源。
 
-[MIT License with Commons Clause](LICENSE-COMMONS-CLAUSE.txt)
 
-This project uses **MIT License + Commons Clause**.
+## 开源协议 / 许可证（License）
 
-* **Permitted:** Personal and non-commercial use, modification, and distribution
-* **Not permitted:** Any commercial use
+[MIT License with Commons Clause](LICENSE-COMMONS-CLAUSE.txt)  
 
-If you want to use this project for commercial purposes (including but not limited to commercial products, paid services, or any form of commercial use), please **contact the author for a commercial license**.
+本项目采用 **MIT License + Commons Clause**。
 
-📧 Contact: [734615869@qq.com](mailto:734615869@qq.com)
+- 允许个人及非商业用途的使用、修改和分发
+- **不允许任何商业用途**
+
+如需将本项目用于商业目的（包括但不限于商业产品、付费服务或其他任何形式），  
+请联系作者获取**商业授权**。
+
+📧 联系方式：734615869@qq.com
 
