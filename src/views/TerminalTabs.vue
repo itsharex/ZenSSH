@@ -21,8 +21,9 @@
       <el-empty
           v-if="item.type === 'welcome'"
           image="/logo.png"
-          description="欢迎使用ZenSSH，简洁、专注的SSH全平台解决方案">
-        <el-button type="primary" @click="showQuickConn">开始连接</el-button>
+          description=" ">
+        <div slot="description">{{ $t('common.hello') }}</div>
+        <el-button style="margin-top: 30px;" type="primary" @click="showQuickConn">{{ $t('main.quickConnect') }}</el-button>
       </el-empty>
 
       <div v-else-if="item.type === 'setting'" class="setting-tab">
@@ -35,11 +36,10 @@
     </el-tab-pane>
 
     <el-tab-pane v-if="isMobile && tabs.length <= 0" :closable="false" label="Welcome" name="welcome">
-
-      <el-empty
-          image="/logo.png"
-          description="欢迎使用ZenSSH，简洁、专注的SSH全平台解决方案">
-        <el-button type="primary" @click="showHostList">开始连接</el-button>
+      <el-empty image="/logo.png"
+                description=" ">
+        <div slot="description">{{ $t('common.hello') }}</div>
+        <el-button style="margin-top: 30px;" type="primary" @click="showQuickConn">{{ $t('main.quickConnect') }}</el-button>
       </el-empty>
     </el-tab-pane>
 
@@ -127,7 +127,7 @@ export default {
       this.tabStore.connList.push({
         id: 'welcome',
         type: 'welcome',
-        title: '欢迎使用',
+        title: 'Welcome',
         state: 1
       })
     }
@@ -154,13 +154,13 @@ export default {
     },
     removeTab(e, sessionId) {
       if (sessionId.startsWith("s_")) {
-        this.$confirm("确定关闭会话？", {showClose: false}).then(() => {
+        this.$confirm(this.$t('connect.confirmDisconnect'), {showClose: false}).then(() => {
           this.closeTerminal(sessionId).then(() => {
             this.tabStore.connectRemove(sessionId)
           })
           this.notify({
             type: 'success',
-            message: '已关闭',
+            message: this.$t('connect.successDisconnect'),
           })
         }).catch(() => {})
       } else {

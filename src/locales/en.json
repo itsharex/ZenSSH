@@ -2,15 +2,23 @@
   "common": {
     "hello": "Connect via SSH, or directly connect to your device using FTP to access the file system.",
     "lang": "Language",
+    "cancel": "Cancel",
     "submit": "Save Configuration",
+    "create": "Create",
+    "update": "Update",
+    "delete": "Delete",
     "disable": "Disable",
+    "success": "Success",
     "reset": "Reset"
   },
   "main": {
     "host": "Host",
     "conn": "Connection",
     "setting": "Settings",
-    "quickConnect": "Connect Now"
+    "quickConnect": "Connect Now",
+    "syncSuccess": "Sync Success",
+    "confirmResetKeyring": "Reset keyring？",
+    "confirmDelete": "Confirm delete config？"
   },
   "connect": {
     "name": "Name",
@@ -41,7 +49,12 @@
     "host_message": "Please enter the host address",
     "port_message": "Please enter the SSH port",
     "username_message": "Please enter the authorized username",
-    "password_message": "Please enter the password"
+    "password_message": "Please enter the password",
+    "confirmDisconnect": "Confirm disconnect？",
+    "successDisconnect": "disconnected."
+  },
+  "sftp": {
+    "main": "File Browser"
   },
   "setting": {
     "sync_config": "Cloud Sync:",

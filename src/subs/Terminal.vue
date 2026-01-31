@@ -35,7 +35,7 @@
           </el-form-item>
         </el-form>
         <template #footer>
-          <el-button @click="showPortForward = false">取消</el-button>
+          <el-button @click="showPortForward = false">{{ $t('common.cancel') }}</el-button>
           <el-button type="primary" @click="createPortForward">确定</el-button>
         </template>
       </el-dialog>

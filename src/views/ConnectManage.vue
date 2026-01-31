@@ -10,12 +10,12 @@
       </div>
     </div>
     <div style="padding-top: 10px;text-align: center;">
-      <el-button @click="showConnectAdd" type="primary">立即连接</el-button>
+      <el-button @click="showConnectAdd" type="primary">{{ $t('main.quickConnect') }}</el-button>
     </div>
 
     <el-dialog
         v-model="showConnect"
-        :title="configAdd ? '创建连接' : '编辑连接'"
+        :title="(configAdd ? $t('common.create') : $t('common.update')) + $t('main.conn')"
         :close-on-click-modal="false"
         :close-on-press-escape="false"
         top="5vh"
@@ -23,12 +23,12 @@
       <connect-form ref="connectForm" v-model="config" />
       <template #footer>
         <div class="dialog-footer">
-          <el-button @click="showConnect = false">取消</el-button>
+          <el-button @click="showConnect = false">{{ $t('common.cancel') }}</el-button>
           <el-button v-if="configAdd" type="primary" @click="quickConnect">
-            立即连接
+            {{ $t('main.quickConnect') }}
           </el-button>
           <el-button v-else type="primary" @click="saveConfig">
-            更新配置
+            {{ $t('common.submit') }}
           </el-button>
         </div>
       </template>
@@ -45,10 +45,10 @@
         placement="bottom-start">
       <template #dropdown>
         <el-dropdown-menu>
-          <el-dropdown-item @click="dropdownConnect">连接</el-dropdown-item>
-          <el-dropdown-item @click="dropdownConnectSftp">文件管理</el-dropdown-item>
-          <el-dropdown-item @click="dropdownShowConfig">配置</el-dropdown-item>
-          <el-dropdown-item @click="dropdownRemove">删除</el-dropdown-item>
+            <el-dropdown-item @click="dropdownConnect">{{ $t('main.quickConnect') }}</el-dropdown-item>
+          <el-dropdown-item @click="dropdownConnectSftp">{{ $t('sftp.main') }}</el-dropdown-item>
+          <el-dropdown-item @click="dropdownShowConfig">{{ $t('main.setting') }}</el-dropdown-item>
+          <el-dropdown-item @click="dropdownRemove">{{ $t('common.delete') }}</el-dropdown-item>
         </el-dropdown-menu>
       </template>
     </el-dropdown>
@@ -122,11 +122,11 @@ export default {
       })
     },
     dropdownRemove() {
-      this.$confirm("确定删除此配置？", {showClose: false}).then(() => {
+      this.$confirm(this.$t('main.confirmDelete'), {showClose: false}).then(() => {
         this.appMng.removeConfig(this.triggerConfig.configId)
         this.notify({
           type: 'success',
-          message: '已删除配置',
+          message: this.$t('common.success'),
         })
       }).catch(() => {})
     },

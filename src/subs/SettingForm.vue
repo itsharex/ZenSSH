@@ -96,7 +96,7 @@ export default {
         if (valid) {
           this.save(() => {
             this.$bus.emit("change-i18n")
-            this.notify({message: "保存成功", type: "success"})
+            this.notify({message: this.$t('common.success'), type: "success"})
           })
         }
       })
@@ -115,7 +115,7 @@ export default {
       })
     },
     resetKeyring() {
-      this.$confirm("确定重置加密密钥？", {showClose: false}).then(() => {
+      this.$confirm(this.$t('main.confirmResetKeyring'), {showClose: false}).then(() => {
         appRunState().keyringDelete().then(() => {
           relaunch()
         })
@@ -137,7 +137,7 @@ export default {
       }
       let confJson = JSON.stringify(useMngStore().$state)
       this.setting.syncToCloud(confJson).then(() => {
-        this.notify({message: "同步成功", type: "success"})
+        this.notify({message: this.$t('main.syncSuccess'), type: "success"})
         this.settingForm = Object.assign({}, this.setting.$state)
       }).catch(err => {
         this.notify({message: err, type: "error"})

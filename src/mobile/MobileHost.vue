@@ -49,7 +49,7 @@
     <el-drawer v-model="showDrawer" direction="btt" :with-header="false" size="25%" body-class="pop-drawer">
       <template #default>
         <div class="btn-list">
-          <el-alert title="立即连接" type="primary" show-icon :closable="false" @click="handleConnConf">
+          <el-alert :title="$t('main.quickConnect')" type="primary" show-icon :closable="false" @click="handleConnConf">
             <template #icon><Connection /></template>
           </el-alert>
           <el-alert title="文件管理" type="primary" show-icon :closable="false" @click="handleConnSftp">

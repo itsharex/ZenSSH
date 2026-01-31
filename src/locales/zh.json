@@ -2,15 +2,23 @@
   "common": {
     "hello": "通过SSH建立链接，或者通过Sftp直接访问目标机器的文件浏览器。",
     "lang": "国际化",
+    "cancel": "取消",
     "submit": "保存配置",
+    "create": "创建",
+    "update": "修改",
+    "delete": "删除",
     "disable": "禁用",
+    "success": "操作成功",
     "reset": "重置"
   },
   "main": {
     "host": "主机",
     "conn": "连接",
     "setting": "设置",
-    "quickConnect": "立即连接"
+    "quickConnect": "立即连接",
+    "syncSuccess": "同步成功",
+    "confirmResetKeyring": "确定重置加密密钥？",
+    "confirmDelete": "确定删除此配置？"
   },
   "connect": {
     "name": "名称",
@@ -41,7 +49,12 @@
     "host_message": "请输入主机地址",
     "port_message": "请输入SSH端口",
     "username_message": "请输入授权账号名",
-    "password_message": "请输入密码"
+    "password_message": "请输入密码",
+    "confirmDisconnect": "确定关闭会话？",
+    "successDisconnect": "已关闭"
+  },
+  "sftp": {
+    "main": "文件管理"
   },
   "setting": {
     "sync_config": "配置云同步：",

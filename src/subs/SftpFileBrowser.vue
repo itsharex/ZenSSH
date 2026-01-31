@@ -4,9 +4,9 @@
     <div class="toolbar">
       <div class="path">📂 {{ currentDir }}</div>
       <div class="actions">
-        <button @click="bakHostTab">🏡 返回首页</button>
-        <button @click="goUp">🔼 上一级</button>
-        <button @click="mkdir">📁 新建文件夹</button>
+        <button @click="bakHostTab">🏡 Home</button>
+        <button @click="goUp">🔼 Back</button>
+        <button @click="mkdir">📁 mkdir</button>
       </div>
     </div>
 
@@ -46,7 +46,6 @@
 
     <el-dialog
         v-model="downloadShow"
-        title="下载进度"
         width="300"
         :show-close="false"
         :close-on-press-escape="false"
@@ -54,7 +53,7 @@
       <el-progress :text-inside="true" :stroke-width="26" :percentage="downloadProgress" />
       <template #footer>
         <div class="dialog-footer">
-          <el-button @click="handleDownloadCancel">取消下载</el-button>
+          <el-button @click="handleDownloadCancel">{{ $t('common.cancel') }}</el-button>
           <el-button :loading="downloadProgress < 100" type="primary" @click="downloadShow = false">
             完成
           </el-button>

@@ -66,7 +66,7 @@ export const appConfigStore = defineStore('AppConf', {
     persist: true,
     state: () => ({
         // 国际化
-        locale: "zh",
+        locale: "zhCn",
 
         // 同步云
         syncType: 0,
