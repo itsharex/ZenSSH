@@ -30,7 +30,7 @@ export function isMobile() {
     return false;
 }
 
-export const sep = (await platform()) === "windows" ? "\\" : "/";
+export let sep = platform() === "windows" ? "\\" : "/";
 
 // 系统常量
 export const CONSTANT = {

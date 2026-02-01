@@ -259,6 +259,7 @@ export default {
       this.termStyle.height = footerHeight + 'px';
       this.$nextTick(() => {
         this.fitAddon.fit()
+        this.term.focus()
       })
     },
 
