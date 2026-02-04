@@ -86,7 +86,14 @@ export const appConfigStore = defineStore('AppConf', {
             this.virtualKeyboardVibrate = setting.virtualKeyboardVibrate
             this.locale = setting.locale
         },
-        async syncToCloud(content) {
+        async syncToCloud() {
+            //0. 处理需要同步的数据
+            let confData = structuredClone(useMngStore().$state);
+            // 清理不需要的数据
+            for (let config of confData.configList) {
+                delete config.isCloud
+            }
+            let content = JSON.stringify(confData)
             const that = this;
             //1. 生成密钥
             let userPass = await appRunState().keyringGet();
@@ -181,10 +188,17 @@ export const appConfigStore = defineStore('AppConf', {
             // 合并配置
             const cloudContent = JSON.parse(decrypt);
             const localContent = useMngStore().$state
+            let mergedList = mergeList(cloudContent.configList, localContent.configList, 'configId')
+            // 标记本地/云端
+            const localIds = new Set(cloudContent.configList.map(item => item.configId));
+            mergedList = mergedList.map(item => ({
+                ...item,
+                isCloud: localIds.has(item.configId)
+            }));
             useMngStore().$state = {
                 ...cloudContent,
                 ...localContent,
-                configList: mergeList(cloudContent.configList, localContent.configList, 'configId')
+                configList: mergedList
             };
             this.gistsLastSync = new Date(res.data.updated_at).toLocaleString()
             return true

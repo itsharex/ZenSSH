@@ -7,6 +7,10 @@
            @contextmenu="handleContextmenu($event, once)"
            :key="once.host">
         <div class="title">{{ once.name }}</div>
+        <div class="subtitle">
+          <el-icon v-if="once.isCloud" color="#22c55e"><UploadFilled /></el-icon>
+          {{ once.username }}@{{ once.host }}
+        </div>
       </div>
     </div>
     <div style="padding-top: 10px;text-align: center;">
@@ -159,20 +163,24 @@ export default {
 }
 
 .config-item {
-  padding: 3px 10px;
+  padding: 3px 10px 0;
   border-bottom: 1px solid #DDD;
   cursor: pointer;
   .title {
-    font-size: 1rem;
+    font-size: 1.1rem;
     line-height: 1.5rem;
-    &:hover {
-      color: var(--el-color-primary);
+  }
+  .subtitle {
+    font-size: 0.8rem;
+    :deep(.el-icon svg) {
+      width: 10px;
+      height: 10px;
     }
   }
-  .tag {
-    font-size: 0.7rem;
-    line-height: 1rem;
-    color: var(--el-color-primary-dark-2);
+  &:hover {
+    .title, .subtitle {
+      color: var(--el-color-primary);
+    }
   }
 }
 .menu {

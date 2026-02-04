@@ -135,8 +135,7 @@ export default {
           console.error(error);
         }
       }
-      let confJson = JSON.stringify(useMngStore().$state)
-      this.setting.syncToCloud(confJson).then(() => {
+      this.setting.syncToCloud().then(() => {
         this.notify({message: this.$t('main.syncSuccess'), type: "success"})
         this.settingForm = Object.assign({}, this.setting.$state)
       }).catch(err => {

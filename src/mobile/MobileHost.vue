@@ -28,7 +28,10 @@
              @click="handleClickConfig(once)"
              :key="once.host">
           <div class="title">{{ once.name }}</div>
-          <div class="subtitle">{{ once.username }}@{{ once.host }}</div>
+          <div class="subtitle">
+            <el-icon v-if="once.isCloud" color="#22c55e"><UploadFilled /></el-icon>
+            {{ once.username }}@{{ once.host }}
+          </div>
         </div>
       </el-scrollbar>
     </div>
