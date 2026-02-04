@@ -354,9 +354,9 @@ export default {
       doc.addEventListener('touchstart', this.onTouchStart, { passive: true })
       doc.addEventListener('touchmove', this.onTouchMove, { passive: false })
       doc.addEventListener('touchend', this.onTouchEnd, { passive: false })
-      doc.addEventListener('mousedown', this.onMouseStart, { passive: true })
-      doc.addEventListener('mousemove', this.onTouchMove, { passive: false })
-      doc.addEventListener('mouseup', this.onTouchEnd, { passive: false })
+      // doc.addEventListener('mousedown', this.onMouseStart, { passive: true })
+      // doc.addEventListener('mousemove', this.onTouchMove, { passive: false })
+      // doc.addEventListener('mouseup', this.onTouchEnd, { passive: false })
     },
 
     unbindTouchEvents () {
@@ -366,9 +366,9 @@ export default {
       doc.removeEventListener('touchstart', this.onTouchStart)
       doc.removeEventListener('touchmove', this.onTouchMove)
       doc.removeEventListener('touchend', this.onTouchEnd)
-      doc.removeEventListener('mousedown', this.onMouseStart)
-      doc.removeEventListener('mousemove', this.onTouchMove)
-      doc.removeEventListener('mouseup', this.onTouchEnd)
+      // doc.removeEventListener('mousedown', this.onMouseStart)
+      // doc.removeEventListener('mousemove', this.onTouchMove)
+      // doc.removeEventListener('mouseup', this.onTouchEnd)
     },
     fun_clientXY(event, name) {
       if (event[name]) {
