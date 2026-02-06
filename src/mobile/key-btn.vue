@@ -11,12 +11,7 @@
       @mouseleave="onPointerLeave"
       @touchstart="onPointerDown"
       @touchend="onPointerUp"
-      @touchcancel="onPointerCancel"
-      @keydown.space.prevent="onKeyDownKeyboard"
-      @keyup.space.prevent="onKeyUpKeyboard"
-      @keydown.enter.prevent="onKeyDownKeyboard"
-      @keyup.enter.prevent="onKeyUpKeyboard"
-  >
+      @touchcancel="onPointerCancel">
     <slot>{{ title || code }}</slot>
   </button>
 </template>
@@ -157,32 +152,10 @@ export default {
       }
     },
 
-    // Keyboard handlers to support space/enter with repeat behaviour
-    onKeyDownKeyboard(e) {
-      if (this.disabled) return;
-      if (this._keyboardActive) return; // ignore auto-repeat; we implement our own
-      this._keyboardActive = true;
-      this.isActive = true;
-      this._keyDown();
-      this._longPressTimer = setTimeout(() => {
-        this._repeatTimer = setInterval(() => {
-          this._keyDown();
-        }, this.repeatInterval);
-      }, this.longPressDelay);
-    },
-    onKeyUpKeyboard(e) {
-      if (!this._keyboardActive) return;
-      this._clearTimers();
-      this._keyboardActive = false;
-      this.isActive = false;
-      this._keyUp();
-    },
-
-
     _keyUp() {
-
     },
     _keyDown() {
+      console.log('_keyDown>>>')
       this.$emit('press', this.code ? this.code : this.title)
     }
   },

@@ -88,12 +88,7 @@ export default {
       shift: false,
       keepShift: false,
       ctrl: false,
-      showKeyboard: true,
       mode: 'letter', // letter | symbol
-
-      activeKey: null,
-      repeatTimer: null,
-      repeatDelayTimer: null,
 
       layouts: {
         letter: {
@@ -159,8 +154,6 @@ export default {
       if (key === ''){
         return; // 这种的不处理
       }
-      this.activeKey = key;
-
       // 处理删除功能
       if (key === '⌫') {
         key = '\b';
@@ -181,16 +174,24 @@ export default {
       if (key.startsWith("F")) {
         key = fnMap[key]
       } else if (this.ctrl) {
+        this.ctrl = false;
         if (key === 'v') { // 从剪贴板粘贴
-          this.$confirm("从剪切板粘贴数据？", {showClose: false}).then(() => {
-            readText().then(clipboardText => {
+          readText().then(clipboardText => {
+            this.$confirm("确定从剪切板粘贴数据？<br/>" + clipboardText, {
+              showClose: false,
+              closeOnClickModal: false,
+              dangerouslyUseHTMLString: true,
+              inputValue: clipboardText
+            }).then((action) => {
               this.$emit("press", clipboardText);
-            }).catch(() => {})
-          }).catch(() => {})
-          return ;
+            }).catch(() => {
+            })
+          }).catch(() => {
+            this.$message.error('读取剪切板失败')
+          })
+          return;
         }
         key = String.fromCharCode(key.charCodeAt(0) & 0x1F);
-        this.ctrl = false;
       }
 
       this.$emit("press", key);

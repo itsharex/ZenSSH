@@ -3,7 +3,7 @@
     <div ref="terminal" class="my-terminal" :style="termStyle"></div>
 
     <div v-if="enableKeyboard" class="footer-keyboard" v-show="showKeyboard">
-      <keyboard @press="pressKeyboard" @click.stop=""/>
+      <keyboard @press="pressKeyboard" @click.stop="()=>{}"/>
     </div>
 
     <div v-if="showAutocomplete.show" class="show-autocomplete" :style="showAutocomplete">
@@ -138,7 +138,7 @@ export default {
       this.term = new Terminal({
         cursorBlink: true,
         fontSize: fontSize,
-        allowTransparency: true,
+        disableStdin: true,
         fontFamily: 'monospace',
         overviewRuler: {
           width: 5,
